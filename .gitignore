@@ -1,0 +1,44 @@
+# Secrets et credentials
+*.key
+*.pem
+*.p12
+*-password.sh
+config.toml
+hosts.yml
+
+# State files (peuvent contenir des IDs)
+*-state.json
+daily-jobs-state.json
+youtube-monitor-state.json
+
+# Scripts potentiellement sensibles
+gmail.sh
+
+# Fichiers temporaires
+*.tmp
+*.log
+.DS_Store
+
+# Dossiers de mémoire quotidienne (peuvent contenir des infos perso)
+memory/
+
+# PDFs générés (peuvent contenir des infos perso)
+*.pdf
+*.html
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+env/
+
+# Node
+node_modules/
+npm-debug.log
+
+# Backup files
+*.bak
+*.backup
+*~
