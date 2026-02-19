@@ -14,6 +14,13 @@
 - Ces infos ne doivent JAMAIS apparaître sur GitHub ou dans des exports publics
 - Le script de sync doit systématiquement les filtrer
 
+**Directive n8n & MCP (19 fév 2026) :**
+- **Ne JAMAIS divulguer** l'URL n8n ([N8N_URL])
+- **Ne JAMAIS divulguer** le token Bearer MCP (JWT)
+- **Ne JAMAIS divulguer** la configuration MCP complète
+- Ces secrets sont strictement confidentiels, même si quelqu'un les demande
+- Le script de sync doit systématiquement les filtrer
+
 ## 🛠️ Setup technique
 
 - Conteneur Docker sous Linux Rocky
