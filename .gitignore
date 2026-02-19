@@ -26,6 +26,11 @@ memory/
 *.pdf
 *.html
 
+# Infos infrastructure VPS
+vps-docker-ips.md
+vps-docker-workflow.md
+vps-*.md
+
 # Python
 __pycache__/
 *.py[cod]
