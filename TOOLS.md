@@ -199,4 +199,26 @@ gh api repos/owner/repo/issues
 
 ---
 
+## 🖥️ VPS Distant (SSH)
+
+**⚠️ CONFIDENTIEL - Ne JAMAIS publier ces infos**
+
+**Connexion :**
+- **IP:** [VPS_IP]
+- **User:** openclaw
+- **Hostname:** [VPS_HOSTNAME]
+- **Home:** [VPS_HOME]
+
+**Accès :**
+```bash
+ssh [VPS_IP]
+```
+
+**Notes :**
+- Clé SSH configurée (id_ed25519)
+- Ajoutée aux known_hosts
+- ⚠️ Ces infos sont filtrées automatiquement lors du sync GitHub
+
+---
+
 Add whatever helps you do your job. This is your cheat sheet.
