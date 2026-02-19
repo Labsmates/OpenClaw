@@ -31,6 +31,10 @@ clean_file() {
         -e 's/openclaw@[0-9.]*//g' \
         -e 's/openclaw@\[VPS_IP\]//g' \
         -e 's/\/home\/openclaw/[VPS_HOME]/g' \
+        -e 's|node8\.connectika\.fr|[N8N_URL]|g' \
+        -e 's|https://[a-zA-Z0-9.-]*connectika\.fr|https://[N8N_URL]|g' \
+        -e 's/Bearer eyJ[a-zA-Z0-9_.-]*/Bearer [MCP_JWT_TOKEN]/g' \
+        -e 's/eyJ[a-zA-Z0-9_.-]*\.[a-zA-Z0-9_.-]*\.[a-zA-Z0-9_.-]*/[JWT_TOKEN]/g' \
         "$source" > "$dest"
 }
 
