@@ -35,6 +35,7 @@ vps-*.md
 n8n-mcp-config.json
 *-mcp-config.json
 agent-nexusflow-sas-README.md
+nexusflow-sas-config-guide.md
 
 # Python
 __pycache__/
