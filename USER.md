@@ -3,17 +3,18 @@
 *Learn about the person you're helping. Update this as you go.*
 
 - **Name:** [YOUR_NAME]
-- **What to call them:** [PREFERRED_NAME]
-- **Pronouns:** [PRONOUNS]
-- **Timezone:** [YOUR_TIMEZONE]
-- **Notes:** [BRIEF_DESCRIPTION]
+- **What to call them:** [YOUR_NAME]
+- **Pronouns:** *(à confirmer)*
+- **Timezone:** Europe/[VOTRE_VILLE] (UTC+1/+2)
+- **Notes:** Ingénieur en informatique, vit à [VOTRE_VILLE]
 
 ## Context
 
-- **Profession:** [YOUR_PROFESSION]
-- **Localisation:** [YOUR_LOCATION]
-- **Langue principale:** [YOUR_LANGUAGE]
-- **Setup technique:** [YOUR_SETUP]
+- **Profession:** Ingénieur informatique
+- **Localisation:** [VOTRE_VILLE], France
+- **Langue principale:** Français
+- **Setup technique:** Conteneur Docker sous Linux Rocky
+- **Outils configurés:** ElevenLabs TTS, Philips Hue (en cours)
 
 *(À compléter au fur et à mesure)*
 

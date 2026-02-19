@@ -83,9 +83,10 @@ himalaya message move 10 "[Gmail]/Trash"
 ```
 
 **Notes:**
-- App Password configuré (stocké dans config)
+- App Password configuré (stocké dans `/root/.config/himalaya/gmail-password.sh`)
 - IMAP: imap.gmail.com:993 (TLS)
 - SMTP: smtp.gmail.com:587 (STARTTLS)
+- Signature automatique : "[ASSISTANT_NAME] - Assistant personnel de [YOUR_NAME]"
 
 ---
 
@@ -103,7 +104,7 @@ himalaya message move 10 "[Gmail]/Trash"
 
 **Utilisation:**
 ```bash
-export ELEVENLABS_API_KEY="YOUR_API_KEY_HERE"
+export ELEVENLABS_API_KEY="[ELEVENLABS_API_KEY]"
 sag -v Roger "Ton texte ici"
 sag -v Roger -o /tmp/audio.mp3 "Message vocal"
 sag voices --limit 20  # Liste toutes les voix
@@ -122,12 +123,12 @@ sag voices --limit 20  # Liste toutes les voix
 **Location:** `/usr/local/bin/openhue`  
 **Configuration:** Nécessite setup avec le bridge Hue
 
-**Setup:**
+**Setup (à faire):**
 1. Appuyer sur le bouton du bridge Hue
 2. Lancer : `openhue setup`
 3. Découvrir les bridges : `openhue discover`
 
-**Utilisation:**
+**Utilisation (après setup):**
 ```bash
 # Lister les lumières
 openhue get light --json
@@ -146,12 +147,18 @@ openhue set light "LED Strip" --on --rgb #FF00FF
 openhue set scene <scene-id>
 ```
 
+**À configurer:**
+- [ ] Connecter le bridge Hue
+- [ ] Mapper les noms de pièces/lumières
+- [ ] Créer des raccourcis pour les scènes favorites
+
 ---
 
 ## 🐙 GitHub (gh CLI)
 
-**Installé:** ✅  
+**Installé:** ✅ (vérifié avec `gh --version`)  
 **Location:** `/usr/bin/gh`  
+**Compte:** Labsmates ([YOUR_NAME] Peyrius)  
 **Configuration:** `/root/.config/gh/hosts.yml`
 
 **Utilisation rapide:**
@@ -188,6 +195,7 @@ gh api repos/owner/repo/issues
 **Notes:**
 - Token configuré et actif
 - Protocole Git : HTTPS
+- 1 repo public sur le compte
 
 ---
 

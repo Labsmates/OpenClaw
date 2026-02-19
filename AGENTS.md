@@ -45,6 +45,20 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
 
+## 🐙 GitHub Sync
+
+**Public repo:** https://github.com/Labsmates/OpenClaw
+
+**Auto-sync after important changes:**
+- When you modify AGENTS.md, SOUL.md, TOOLS.md, HEARTBEAT.md, IDENTITY.md, USER.md, or MEMORY.md
+- Run: `/app/workspace/sync-to-github.sh`
+- All secrets are automatically cleaned before publishing
+- Never manually edit files in `/tmp/openclaw-repo` — always edit in `/app/workspace` then sync
+
+**What gets synced:**
+✅ Configuration files (secrets removed)  
+❌ State files, memory/, PDFs, credentials
+
 ## Safety
 
 - Don't exfiltrate private data. Ever.
