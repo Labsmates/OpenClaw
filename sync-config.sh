@@ -26,6 +26,11 @@ clean_file() {
         -e 's/Paris/[VOTRE_VILLE]/g' \
         -e 's/Wilfrid/[YOUR_NAME]/g' \
         -e 's/Axel/[ASSISTANT_NAME]/g' \
+        -e 's/54\.37\.157\.8/[VPS_IP]/g' \
+        -e 's/vps02/[VPS_HOSTNAME]/g' \
+        -e 's/openclaw@[0-9.]*//g' \
+        -e 's/openclaw@\[VPS_IP\]//g' \
+        -e 's/\/home\/openclaw/[VPS_HOME]/g' \
         "$source" > "$dest"
 }
 
