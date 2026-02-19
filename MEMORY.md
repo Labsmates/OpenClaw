@@ -21,6 +21,47 @@
 - Email : [VOTRE_EMAIL]
 - Telegram ID [YOUR_NAME] : [VOTRE_TELEGRAM_ID]
 
+### 🐳 Directives Docker VPS (19 fév 2026)
+
+**Répertoire de travail :** `/opt/` uniquement
+- Chaque projet dans son propre dossier : `/opt/nom-projet/`
+- Exemple : `/opt/n8n-sas/`, `/opt/gitlab/`, etc.
+
+**Réseau Docker :**
+- **Nom réseau :** `proxy` (externe, déjà créé)
+- **Subnet :** `172.80.0.0/24`
+- **TOUJOURS vérifier** la disponibilité de l'IP avant attribution
+
+**Template docker-compose.yml :**
+```yaml
+services:
+  service_name:
+    image: image:tag
+    container_name: nom_container
+    restart: always
+    hostname: nom.local
+    networks:
+      proxy:
+        ipv4_address: 172.80.0.XXX  # Vérifier disponibilité
+    ports:
+      - "port_host:port_container"
+    volumes:
+      - /opt/projet/data:/data
+    environment:
+      - VAR=value
+
+networks:
+  proxy:
+    external: true
+```
+
+**Workflow de création :**
+1. SSH vers le VPS
+2. Vérifier IPs disponibles : `docker network inspect proxy`
+3. Créer dossier : `mkdir -p /opt/nom-projet`
+4. Créer docker-compose.yml avec IP libre
+5. `docker-compose up -d`
+
 ## 📋 Jobs quotidiens
 
 Gérés via HEARTBEAT.md + `daily-jobs-state.json` :
