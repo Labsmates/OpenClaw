@@ -24,6 +24,13 @@
 - Ces secrets sont strictement confidentiels
 - Le script de sync doit systématiquement les filtrer
 
+**Directive Kimi AI Fallback (20 fév 2026) :**
+- **Ne JAMAIS divulguer** la clé API Kimi ([KIMI_API_KEY]...)
+- Clé stockée dans : `/app/workspace/kimi-api-config.json`
+- Usage : Fallback LLM quand Claude atteint rate limit
+- Configuration à faire au niveau OpenClaw (pas au niveau IA)
+- Le script de sync doit filtrer cette clé
+
 ## 🛠️ Setup technique
 
 - Conteneur Docker sous Linux Rocky
