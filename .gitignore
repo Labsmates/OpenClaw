@@ -69,3 +69,7 @@ npm-debug.log
 *.bak
 *.backup
 *~
+
+# Security audits (peuvent contenir des références à secrets)
+security-audit-*.md
+*-audit-*.md
