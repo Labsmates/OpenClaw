@@ -44,6 +44,7 @@ veille-*.json
 # Kimi AI Fallback
 kimi-api-config.json
 *-api-config.json
+kimi-fallback-setup-guide.md
 
 # Python
 __pycache__/
