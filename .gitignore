@@ -5,6 +5,11 @@
 *-password.sh
 config.toml
 hosts.yml
+.env
+.env.*
+*.token
+*-token.txt
+*credentials*
 
 # State files (peuvent contenir des IDs)
 *-state.json
@@ -13,6 +18,8 @@ youtube-monitor-state.json
 
 # Scripts potentiellement sensibles
 gmail.sh
+sync-to-github.sh
+*-sync*.sh
 
 # Fichiers temporaires
 *.tmp
