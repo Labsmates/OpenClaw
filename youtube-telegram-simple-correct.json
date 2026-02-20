@@ -1,0 +1,267 @@
+{
+  "name": "YouTube → Telegram Simple",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Every 12h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "filePath": "/app/workspace/youtube-monitor-state.json",
+        "options": {}
+      },
+      "id": "read-state",
+      "name": "Load State File",
+      "type": "n8n-nodes-base.readBinaryFiles",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse state file\nconst stateBuffer = $input.first().binary.data;\nconst stateText = Buffer.from(stateBuffer, 'base64').toString('utf8');\nconst stateData = JSON.parse(stateText);\n\nreturn [\n  {\n    json: {\n      channels: stateData.channels || [],\n      sent_videos: stateData.sent_videos || [],\n      timestamp: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "id": "parse-state",
+      "name": "Parse State",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "loop-channels",
+      "name": "Loop Channels",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://www.youtube.com/feeds/videos.xml?channel_id={{ $json.channels[$itemIndex] }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-rss",
+      "name": "Fetch YouTube RSS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse XML RSS YouTube\nconst xml = $input.first().json.body || $input.first().json.data;\nconst sentVideos = $('Parse State').first().json.sent_videos;\n\nconst videoMatches = xml.matchAll(/<entry>([\\s\\S]*?)<\\/entry>/g);\nconst videos = [];\nconst now = new Date();\nconst maxAgeDays = 3;\n\nfor (const match of videoMatches) {\n  const entry = match[1];\n  \n  const videoIdMatch = entry.match(/<yt:videoId>([^<]+)<\\/yt:videoId>/);\n  const titleMatch = entry.match(/<title>([^<]+)<\\/title>/);\n  const publishedMatch = entry.match(/<published>([^<]+)<\\/published>/);\n  const authorMatch = entry.match(/<name>([^<]+)<\\/name>/);\n  \n  if (!videoIdMatch || !titleMatch || !publishedMatch) continue;\n  \n  const videoId = videoIdMatch[1];\n  const title = titleMatch[1];\n  const published = publishedMatch[1];\n  const channel = authorMatch ? authorMatch[1] : 'Unknown';\n  \n  const pubDate = new Date(published);\n  const ageDays = Math.floor((now - pubDate) / (1000 * 60 * 60 * 24));\n  \n  if (ageDays > maxAgeDays) continue;\n  if (sentVideos.includes(videoId)) continue;\n  \n  const isShort = title.toLowerCase().includes('#shorts') || title.toLowerCase().includes('#short');\n  if (isShort) {\n    sentVideos.push(videoId);\n    continue;\n  }\n  \n  videos.push({\n    id: videoId,\n    title: title,\n    channel: channel,\n    published: published,\n    age_days: ageDays,\n    url: `https://www.youtube.com/watch?v=${videoId}`\n  });\n  \n  sentVideos.push(videoId);\n}\n\nreturn videos.map(v => ({ json: v }));"
+      },
+      "id": "parse-videos",
+      "name": "Parse & Filter Videos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const video = $input.first().json;\nconst ageText = video.age_days > 0 ? `${video.age_days} jour(s)` : \"aujourd'hui\";\n\nreturn [{\n  json: {\n    message: `🎬 **${video.title}**\\n👤 ${video.channel} • 📅 Il y a ${ageText}\\n${video.url}`,\n    video_id: video.id\n  }\n}];"
+      },
+      "id": "format-message",
+      "name": "Format Telegram Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "8481398125",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "parse_mode": "Markdown",
+          "disable_web_page_preview": false
+        }
+      },
+      "id": "send-telegram",
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1780, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-bot",
+          "name": "Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.success !== false }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-sent",
+      "name": "Check if Sent",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2000, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect all sent video IDs from successful sends\nconst allItems = $input.all();\nconst sentIds = allItems.map(item => item.json.video_id).filter(id => id);\nconst oldState = $('Parse State').first().json;\n\nconst updatedSentVideos = [...new Set([...oldState.sent_videos, ...sentIds])];\n\nconst newState = {\n  channels: oldState.channels,\n  sent_videos: updatedSentVideos\n};\n\nreturn [{\n  json: {\n    state: newState,\n    new_videos_count: sentIds.length\n  }\n}];"
+      },
+      "id": "update-state",
+      "name": "Update State",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2220, 200]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/app/workspace/youtube-monitor-state.json",
+        "data": "={{ JSON.stringify($json.state, null, 2) }}",
+        "options": {}
+      },
+      "id": "save-state",
+      "name": "Save State File",
+      "type": "n8n-nodes-base.writeFile",
+      "typeVersion": 1,
+      "position": [2440, 200]
+    }
+  ],
+  "connections": {
+    "Schedule Every 12h": {
+      "main": [
+        [
+          {
+            "node": "Load State File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load State File": {
+      "main": [
+        [
+          {
+            "node": "Parse State",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse State": {
+      "main": [
+        [
+          {
+            "node": "Loop Channels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Channels": {
+      "main": [
+        [
+          {
+            "node": "Fetch YouTube RSS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch YouTube RSS": {
+      "main": [
+        [
+          {
+            "node": "Parse & Filter Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse & Filter Videos": {
+      "main": [
+        [
+          {
+            "node": "Format Telegram Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Telegram Message": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Telegram": {
+      "main": [
+        [
+          {
+            "node": "Check if Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Sent": {
+      "main": [
+        [
+          {
+            "node": "Update State",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update State": {
+      "main": [
+        [
+          {
+            "node": "Save State File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "versionId": "1"
+}
