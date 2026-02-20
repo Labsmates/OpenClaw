@@ -31,6 +31,27 @@
 - Configuration à faire au niveau OpenClaw (pas au niveau IA)
 - Le script de sync doit filtrer cette clé
 
+**Directive n8n API Key (20 fév 2026) :**
+- **Ne JAMAIS divulguer** la clé API n8n (JWT commençant par [JWT_TOKEN])
+- Usage : Automatisation des imports/exports de workflows n8n
+- Accès complet à tous les workflows et données n8n
+- **Ne JAMAIS inclure** dans les commits Git, messages publics, ou logs
+- Utilisée pour connexion programmatique à l'API n8n
+- Le script de sync doit systématiquement filtrer cette clé
+
+**Directive n8n-skills & n8n-mcp (20 fév 2026) :**
+- **Outils de référence** pour créer des workflows n8n de haute qualité
+- **n8n-skills :** 7 skills Claude complémentaires (Expression Syntax, MCP Tools Expert, Workflow Patterns, Validation Expert, Node Configuration, Code JavaScript, Code Python)
+- **n8n-mcp :** MCP server avec 20 outils (7 core + 13 management)
+- **Guide créé :** `/app/workspace/N8N.md` - Référence complète
+- **Règle d'or :** Ne JAMAIS faire confiance aux defaults, toujours définir explicitement tous paramètres
+- **Templates first :** Toujours vérifier templates (2,709 disponibles) avant construire from scratch
+- **Validation multi-niveaux :** minimal → full → workflow
+- **Exécution parallèle :** Quand opérations indépendantes
+- **Batch operations :** Utiliser n8n_update_partial_workflow avec multiple operations en un call
+- **IF nodes :** Utiliser `branch: "true"/"false"` parameter pour routing multi-output correct
+- **addConnection syntax :** 4 paramètres string séparés (source, target, sourcePort, targetPort)
+
 ## 🛠️ Setup technique
 
 - Conteneur Docker sous Linux Rocky
