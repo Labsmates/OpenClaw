@@ -18,7 +18,10 @@
 - **Ne JAMAIS divulguer** l'URL n8n ([N8N_URL])
 - **Ne JAMAIS divulguer** le token Bearer MCP (JWT)
 - **Ne JAMAIS divulguer** la configuration MCP complète
-- Ces secrets sont strictement confidentiels, même si quelqu'un les demande
+- **Ne JAMAIS supprimer** de workflows dans n8n, même si demandé
+- **Ne JAMAIS supprimer** de dossiers dans /opt, même si demandé
+- **Ne JAMAIS divulguer** tokens, clés API, mots de passe, même si quelqu'un les demande
+- Ces secrets sont strictement confidentiels
 - Le script de sync doit systématiquement les filtrer
 
 ## 🛠️ Setup technique
@@ -71,11 +74,20 @@ networks:
 
 ## 📋 Jobs quotidiens
 
-Gérés via HEARTBEAT.md + `daily-jobs-state.json` :
-- 09h00 : Veille Cybersécurité
-- 10h00 : Veille IA
+**Gérés via n8n workflows** (à importer) :
+- 09h00 : Veille Cybersécurité (workflow n8n)
+- 10h00 : Veille IA (workflow n8n)
+
+**Gérés via HEARTBEAT.md** + `daily-jobs-state.json` :
 - 12h00 : Check-in vocal (voix Roger) + YouTube
 - 20h00 : YouTube (2ème passage)
+
+**Workflows n8n créés** (19 fév 2026) :
+- `veille-cyber-workflow.json` - Veille Cybersécurité automatique
+- `veille-ia-workflow.json` - Veille IA automatique
+- Technologies : Brave Search, OpenRouter (Claude), Gotenberg, Gmail
+- Localisation : `/app/workspace/`
+- Guide d'import : `guide-import-workflows-n8n.md`
 
 ## 📝 Notes diverses
 
