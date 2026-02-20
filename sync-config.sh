@@ -35,6 +35,7 @@ clean_file() {
         -e 's|https://[a-zA-Z0-9.-]*connectika\.fr|https://[N8N_URL]|g' \
         -e 's/Bearer eyJ[a-zA-Z0-9_.-]*/Bearer [MCP_JWT_TOKEN]/g' \
         -e 's/eyJ[a-zA-Z0-9_.-]*\.[a-zA-Z0-9_.-]*\.[a-zA-Z0-9_.-]*/[JWT_TOKEN]/g' \
+        -e 's/nvapi-[a-zA-Z0-9_-]*/[KIMI_API_KEY]/g' \
         "$source" > "$dest"
 }
 

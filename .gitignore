@@ -41,6 +41,10 @@ guide-import-workflows-n8n.md
 *-workflow.json
 veille-*.json
 
+# Kimi AI Fallback
+kimi-api-config.json
+*-api-config.json
+
 # Python
 __pycache__/
 *.py[cod]
