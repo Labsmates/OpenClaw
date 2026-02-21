@@ -26,10 +26,11 @@ clean_file() {
         -e 's/Paris/[VOTRE_VILLE]/g' \
         -e 's/Wilfrid/[YOUR_NAME]/g' \
         -e 's/Axel/[ASSISTANT_NAME]/g' \
-        -e 's/54\.37\.157\.8/[VPS_IP]/g' \
+        -e 's/openclaw@54\.37\.157\.8/user@10.10.10.1/g' \
+        -e 's/54\.37\.157\.8/10.10.10.1/g' \
         -e 's/vps02/[VPS_HOSTNAME]/g' \
+        -e 's/openclaw@10\.10\.10\.1/user@10.10.10.1/g' \
         -e 's/openclaw@[0-9.]*//g' \
-        -e 's/openclaw@\[VPS_IP\]//g' \
         -e 's/\/home\/openclaw/[VPS_HOME]/g' \
         -e 's|node8\.connectika\.fr|[N8N_URL]|g' \
         -e 's|https://[a-zA-Z0-9.-]*connectika\.fr|https://[N8N_URL]|g' \

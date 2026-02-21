@@ -204,14 +204,14 @@ gh api repos/owner/repo/issues
 **⚠️ CONFIDENTIEL - Ne JAMAIS publier ces infos**
 
 **Connexion :**
-- **IP:** [VPS_IP]
+- **IP:** 10.10.10.1
 - **User:** openclaw
 - **Hostname:** [VPS_HOSTNAME]
 - **Home:** [VPS_HOME]
 
 **Accès :**
 ```bash
-ssh [VPS_IP]
+ssh user@10.10.10.1
 ```
 
 **Notes :**

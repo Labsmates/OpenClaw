@@ -15,8 +15,8 @@
 - Le script de sync doit systématiquement les filtrer
 
 **Directive IP publiques GitHub (21 fév 2026) :**
-- **TOUJOURS remplacer** l'IP VPS réelle ([VPS_IP]) par `10.10.10.1` dans tous les documents publics
-- **TOUJOURS remplacer** `[VPS_IP]` par `user@10.10.10.1` dans GitHub
+- **TOUJOURS remplacer** l'IP VPS réelle (10.10.10.1) par `10.10.10.1` dans tous les documents publics
+- **TOUJOURS remplacer** `user@10.10.10.1` par `user@10.10.10.1` dans GitHub
 - Ceci s'applique à : documentations, guides, exemples, README, scripts partagés
 - **Règle stricte :** Avant TOUT push GitHub, vérifier avec `grep -r "54.37" .`
 - Le script de sync GitHub doit automatiquement filtrer cette IP
@@ -67,7 +67,7 @@
 - **Volumes persistants :** /opt/kali/data → /data, /opt/kali/workspace → /workspace
 - **Capabilities :** NET_ADMIN, NET_RAW, SYS_PTRACE (pour scans réseau, sniffing)
 - **Outils installés :** nmap, netcat, curl, wget, git, vim, nano, net-tools
-- **Connexion :** `ssh [VPS_IP]` puis `docker exec -it kali-linux /bin/bash`
+- **Connexion :** `ssh user@10.10.10.1` puis `docker exec -it kali-linux /bin/bash`
 - **Script rapide :** `/opt/kali/connect.sh`
 - **Guide complet :** `/app/workspace/KALI-DOCKER-GUIDE.md`
 - **Usage légal uniquement :** Ne jamais scanner sans autorisation
