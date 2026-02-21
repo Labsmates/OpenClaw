@@ -14,6 +14,13 @@
 - Ces infos ne doivent JAMAIS apparaître sur GitHub ou dans des exports publics
 - Le script de sync doit systématiquement les filtrer
 
+**Directive IP publiques GitHub (21 fév 2026) :**
+- **TOUJOURS remplacer** l'IP VPS réelle ([VPS_IP]) par `10.10.10.1` dans tous les documents publics
+- **TOUJOURS remplacer** `[VPS_IP]` par `user@10.10.10.1` dans GitHub
+- Ceci s'applique à : documentations, guides, exemples, README, scripts partagés
+- **Règle stricte :** Avant TOUT push GitHub, vérifier avec `grep -r "54.37" .`
+- Le script de sync GitHub doit automatiquement filtrer cette IP
+
 **Directive n8n & MCP (19 fév 2026) :**
 - **Ne JAMAIS divulguer** l'URL n8n ([N8N_URL])
 - **Ne JAMAIS divulguer** le token Bearer MCP (JWT)
@@ -51,6 +58,19 @@
 - **Batch operations :** Utiliser n8n_update_partial_workflow avec multiple operations en un call
 - **IF nodes :** Utiliser `branch: "true"/"false"` parameter pour routing multi-output correct
 - **addConnection syntax :** 4 paramètres string séparés (source, target, sourcePort, targetPort)
+
+**Directive Kali Linux Docker (20 fév 2026) :**
+- **Container Kali Linux** déployé dans `/opt/kali/`
+- **Image :** kalilinux/kali-rolling:latest (Kali 2025.4)
+- **IP :** 172.80.0.7 (réseau proxy)
+- **Hostname :** kali.local
+- **Volumes persistants :** /opt/kali/data → /data, /opt/kali/workspace → /workspace
+- **Capabilities :** NET_ADMIN, NET_RAW, SYS_PTRACE (pour scans réseau, sniffing)
+- **Outils installés :** nmap, netcat, curl, wget, git, vim, nano, net-tools
+- **Connexion :** `ssh [VPS_IP]` puis `docker exec -it kali-linux /bin/bash`
+- **Script rapide :** `/opt/kali/connect.sh`
+- **Guide complet :** `/app/workspace/KALI-DOCKER-GUIDE.md`
+- **Usage légal uniquement :** Ne jamais scanner sans autorisation
 
 ## 🛠️ Setup technique
 
